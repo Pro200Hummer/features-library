@@ -1,0 +1,30 @@
+.post {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-top: 15px;
+  border: 2px solid #1b5b0b;
+  border-radius: 5px;
+
+  .btns {
+    button {
+      padding: 5px;
+      background-color: #5b0b0b;
+      color: #ffffff;
+      border: 1px solid #5b0b0b;
+      border-radius: 5px;
+      outline: none;
+      transition: background-color .2s;
+
+      &:hover {
+        background-color: #d90e0e;
+      }
+
+      &:active {
+        background-color: #5b0b0b;
+      }
+    }
+  }
+}

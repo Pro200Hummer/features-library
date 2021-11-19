@@ -1,0 +1,36 @@
+.container {
+  width: 50%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+
+  input {
+    width: 40%;
+    display: block;
+    padding: 5px;
+    border: 1px solid #464242;
+    border-radius: 5px;
+    outline: none;
+  }
+
+  button {
+    width: 10%;
+    padding: 5px;
+    background-color: #1b5b0b;
+    color: #ffffff;
+    border: 1px solid #1b5b0b;
+    border-radius: 5px;
+    outline: none;
+    transition: background-color .2s;
+
+    &:hover {
+      background-color: #3db71b;
+    }
+
+    &:active {
+      background-color: #1b5b0b;
+    }
+  }
+}
