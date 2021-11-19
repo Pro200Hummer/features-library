@@ -24,7 +24,6 @@ export const PostItem = (props: PropsType) => {
                 </div>
             </div>
             <div className={style.btns}>
-                {/*<button onClick={buttonHandler}>Delete</button>*/}
                 <Button handler={buttonHandler} className={style.button}>Delete</Button>
             </div>
         </div>

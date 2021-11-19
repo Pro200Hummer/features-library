@@ -27,8 +27,20 @@ export const PostsHandler = (props: PropsType) => {
 
 
     return <div className={style.container}>
-        <Input value={title} handler={titleHandler} className={style.input}/>
-        <Input value={description} handler={descriptionHandler} className={style.input}/>
+        <Input
+            type={'text'}
+            value={title}
+            placeholder={'Enter the title'}
+            className={style.input}
+            handler={titleHandler}
+        />
+        <Input
+            type={'text'}
+            value={description}
+            placeholder={'Enter the post description'}
+            className={style.input}
+            handler={descriptionHandler}
+        />
         <Button handler={buttonHandler} className={style.button}>Add</Button>
     </div>
 
