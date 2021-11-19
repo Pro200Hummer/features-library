@@ -1,5 +1,7 @@
 import React, {ChangeEvent, useState} from 'react';
 import style from "../../styles/PostsHandler.module.scss";
+import {Button} from "../UI/Button/Button";
+import {Input} from "../UI/Input/Input";
 
 interface PropsType {
     addPost: (title: string, description: string) => void
@@ -25,9 +27,9 @@ export const PostsHandler = (props: PropsType) => {
 
 
     return <div className={style.container}>
-        <input type="text" placeholder={'Enter the title'} value={title} onChange={titleHandler}/>
-        <input type="text" placeholder={'Enter a description'} value={description} onChange={descriptionHandler}/>
-        <button onClick={buttonHandler}>Add</button>
+        <Input value={title} handler={titleHandler} className={style.input}/>
+        <Input value={description} handler={descriptionHandler} className={style.input}/>
+        <Button handler={buttonHandler} className={style.button}>Add</Button>
     </div>
 
 };
