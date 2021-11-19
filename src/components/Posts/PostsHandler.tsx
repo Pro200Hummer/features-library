@@ -4,39 +4,41 @@ import {Button} from "../UI/Button/Button";
 import {Input} from "../UI/Input/Input";
 
 interface PropsType {
-    addPost: (title: string, description: string) => void
+    addPost: (params: {title: string, description: string}) => void
+}
+interface Post {
+    title: string
+    description: string
 }
 
 export const PostsHandler = (props: PropsType) => {
     const {addPost} = props
 
-    const [title, setTitle] = useState<string>('')
-    const [description, setDescription] = useState<string>('')
+    const [post, setPost] = useState<Post>({title: '', description: ''})
 
     const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
+        setPost({...post, title: e.currentTarget.value})
     };
     const descriptionHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setDescription(e.currentTarget.value)
+        setPost({...post, description: e.currentTarget.value})
     };
     const buttonHandler = () => {
-        addPost(title, description)
-        setTitle('')
-        setDescription('')
+        addPost({...post})
+        setPost({title: '', description: ''})
     }
 
 
     return <div className={style.container}>
         <Input
             type={'text'}
-            value={title}
+            value={post.title}
             placeholder={'Enter the title'}
             className={style.input}
             handler={titleHandler}
         />
         <Input
             type={'text'}
-            value={description}
+            value={post.description}
             placeholder={'Enter the post description'}
             className={style.input}
             handler={descriptionHandler}

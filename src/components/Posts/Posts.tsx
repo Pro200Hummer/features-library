@@ -15,10 +15,10 @@ const Posts = () => {
         {id: 3, title: 'ReactJS', description: 'Description'},
     ])
 
-    const addPost = (title: string, description: string) => {
+    const addPost = (params: {title: string, description: string}) => {
         setPosts([
             ...posts,
-            {id: posts.length + 1, title, description}
+            {id: posts.length + 1, ...params}
         ])
     }
 
