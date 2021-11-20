@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, useCallback, useMemo, useState} from 'react';
 import {PostItem} from "./PostItem";
 import {PostsHandler} from "./PostsHandler";
 import {Select} from "../UI/Select/Select";
@@ -21,29 +21,45 @@ const Posts = () => {
         {value: 'description', text: 'Sorted by description'},
     ]
 
-    const [sortValue, setSortValue] = useState<string>('')
+    const [sortValue, setSortValue] = useState<string>('default')
 
     const sortingHandler = (e: ChangeEvent<HTMLSelectElement>) => {
         const sort = e.currentTarget.value
         setSortValue(sort)
-       if(sort === 'title') {
-           setPosts([...posts].sort((a,b) => a.title.localeCompare(b.title)))
-       }
-       if(sort === 'description') {
-           setPosts([...posts].sort((a,b) => a.description.localeCompare(b.description)))
-       }
-        if(sort === 'default') {
-            setPosts([...posts].sort((a,b) => a.id < b.id ? -1 : 1))
+        /*if(sort === 'title') {
+            setPosts([...posts].sort((a,b) => a.title.localeCompare(b.title)))
         }
-
+        if(sort === 'description') {
+            setPosts([...posts].sort((a,b) => a.description.localeCompare(b.description)))
+        }
+         if(sort === 'default') {
+             setPosts([...posts].sort((a,b) => a.id < b.id ? -1 : 1))
+         }*/
     }
+
+    const sortedPosts = useMemo(() => {
+        if (sortValue) {
+            if (sortValue === 'title') {
+                return [...posts].sort((a, b) => a.title.localeCompare(b.title))
+            }
+            if (sortValue === 'description') {
+                return [...posts].sort((a, b) => a.description.localeCompare(b.description))
+            }
+            if (sortValue === 'default') {
+                return [...posts].sort((a, b) => a.id < b.id ? -1 : 1)
+            }
+        } else {
+            return posts
+        }
+    }, [sortValue])
+    console.log(sortedPosts)
 
     const addPost = useCallback((params: { title: string, description: string }) => {
         setPosts([
             ...posts,
             {id: posts.length + 1, ...params}
         ])
-    },[posts])
+    }, [posts])
 
     const deletePost = (postId: number) => {
         setPosts(posts.filter(p => p.id !== postId))
@@ -53,15 +69,15 @@ const Posts = () => {
         <PostsHandler addPost={addPost}/>
         <Select defaultValue='sorted' options={sortingOptions} sortValue={sortValue} handler={sortingHandler}/>
         <h2 style={{textAlign: 'center'}}>Posts List</h2>
-        {posts.length === 0 ? <h1>Posts not found</h1> :
-            posts.map((p: PostItemType) => <PostItem
-                    key={p.id}
-                    id={p.id}
-                    title={p.title}
-                    description={p.description}
-                    deletePost={deletePost}
-                />
-            )}
+        {sortedPosts ? sortedPosts.map((p: PostItemType) => <PostItem
+                key={p.id}
+                id={p.id}
+                title={p.title}
+                description={p.description}
+                deletePost={deletePost}
+            />
+        ) : <h1>Posts not found</h1>
+        }
     </>
 
 };
