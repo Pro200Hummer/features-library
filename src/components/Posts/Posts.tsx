@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {PostItem} from "./PostItem";
 import {PostsHandler} from "./PostsHandler";
+import {Select} from "../UI/Select/Select";
 
 export interface PostItemType {
     id: number
@@ -14,13 +15,18 @@ const Posts = () => {
         {id: 2, title: 'JavaScript', description: 'Description'},
         {id: 3, title: 'ReactJS', description: 'Description'},
     ])
+    const sortingOptions = [
+        {value: 'default', text: 'No sorting'},
+        {value: 'title', text: 'Sorted by title'},
+        {value: 'description', text: 'Sorted by description'},
+    ]
 
-    const addPost = (params: {title: string, description: string}) => {
+    const addPost = useCallback((params: { title: string, description: string }) => {
         setPosts([
             ...posts,
             {id: posts.length + 1, ...params}
         ])
-    }
+    },[posts])
 
     const deletePost = (postId: number) => {
         setPosts(posts.filter(p => p.id !== postId))
@@ -28,15 +34,17 @@ const Posts = () => {
 
     return <>
         <PostsHandler addPost={addPost}/>
+        <Select defaultValue='sorted' options={sortingOptions}/>
         <h2 style={{textAlign: 'center'}}>Posts List</h2>
-        {posts.map((p: PostItemType) => <PostItem
-            key={p.id}
-            id={p.id}
-            title={p.title}
-            description={p.description}
-            deletePost={deletePost}
-            />
-        )}
+        {posts.length === 0 ? <h1>Posts not found</h1> :
+            posts.map((p: PostItemType) => <PostItem
+                    key={p.id}
+                    id={p.id}
+                    title={p.title}
+                    description={p.description}
+                    deletePost={deletePost}
+                />
+            )}
     </>
 
 };

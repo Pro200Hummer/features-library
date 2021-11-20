@@ -4,24 +4,27 @@ import {Button} from "../UI/Button/Button";
 import {Input} from "../UI/Input/Input";
 
 interface PropsType {
-    addPost: (params: {title: string, description: string}) => void
+    addPost: (params: { title: string, description: string }) => void
 }
+
 interface Post {
     title: string
     description: string
 }
 
-export const PostsHandler = (props: PropsType) => {
+export const PostsHandler = React.memo((props: PropsType) => {
     const {addPost} = props
 
     const [post, setPost] = useState<Post>({title: '', description: ''})
 
     const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setPost({...post, title: e.currentTarget.value})
-    };
+    }
+
     const descriptionHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setPost({...post, description: e.currentTarget.value})
-    };
+    }
+
     const buttonHandler = () => {
         addPost({...post})
         setPost({title: '', description: ''})
@@ -46,4 +49,4 @@ export const PostsHandler = (props: PropsType) => {
         <Button handler={buttonHandler} className={style.button}>Add</Button>
     </div>
 
-};
+});

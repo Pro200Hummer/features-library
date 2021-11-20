@@ -8,8 +8,8 @@ interface InputProps {
     className?: string
 }
 
-export const Input = (props: PropsWithChildren<InputProps>) => {
+export const Input = React.memo((props: PropsWithChildren<InputProps>) => {
     const {type, value, placeholder, className, handler} = props
 
     return <input type={type} placeholder={placeholder} value={value} onChange={handler} className={className}/>
-};
+});
