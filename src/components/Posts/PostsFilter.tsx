@@ -2,7 +2,7 @@ import React, {ChangeEvent, FC} from 'react';
 import style from "../../styles/PostFilter.module.scss";
 import {Input} from "../UI/Input/Input";
 import {Select} from "../UI/Select/Select";
-import {Filter} from "./Posts";
+import {Filter} from "../../types/appTypes";
 
 interface PostsFilter {
     filter: Filter

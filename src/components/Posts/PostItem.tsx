@@ -1,7 +1,7 @@
 import React from 'react';
 import style from "../../styles/PostItem.module.scss";
-import {PostItemType} from "./Posts";
 import {Button} from "../UI/Button/Button";
+import {PostItemType} from "../../types/appTypes";
 
 interface PropsType extends PostItemType {
     deletePost: (postId: number) => void
