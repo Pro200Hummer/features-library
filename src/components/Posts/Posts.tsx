@@ -2,6 +2,7 @@ import React, {ChangeEvent, useCallback, useMemo, useState} from 'react';
 import {PostItem} from "./PostItem";
 import {PostsHandler} from "./PostsHandler";
 import {Select} from "../UI/Select/Select";
+import {Input} from "../UI/Input/Input";
 
 export interface PostItemType {
     id: number
@@ -22,19 +23,13 @@ const Posts = () => {
     ]
 
     const [sortValue, setSortValue] = useState<string>('default')
+    const [searchValue, setSearchValue] = useState<string>('')
 
     const sortingHandler = (e: ChangeEvent<HTMLSelectElement>) => {
-        const sort = e.currentTarget.value
-        setSortValue(sort)
-        /*if(sort === 'title') {
-            setPosts([...posts].sort((a,b) => a.title.localeCompare(b.title)))
-        }
-        if(sort === 'description') {
-            setPosts([...posts].sort((a,b) => a.description.localeCompare(b.description)))
-        }
-         if(sort === 'default') {
-             setPosts([...posts].sort((a,b) => a.id < b.id ? -1 : 1))
-         }*/
+        setSortValue(e.currentTarget.value)
+    }
+    const searchingHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearchValue(e.currentTarget.value)
     }
 
     const sortedPosts = useMemo(() => {
@@ -51,8 +46,13 @@ const Posts = () => {
         } else {
             return posts
         }
-    }, [sortValue])
-    console.log(sortedPosts)
+    }, [sortValue, posts])
+
+
+    const searchingAndSortedPosts = useMemo(() => {
+        if (sortedPosts) return sortedPosts.filter(post => post.title.toLowerCase().includes(searchValue.toLowerCase()))
+    }, [searchValue, sortedPosts])
+
 
     const addPost = useCallback((params: { title: string, description: string }) => {
         setPosts([
@@ -67,16 +67,18 @@ const Posts = () => {
 
     return <>
         <PostsHandler addPost={addPost}/>
+        <Input type="text" value={searchValue} handler={searchingHandler}/>
         <Select defaultValue='sorted' options={sortingOptions} sortValue={sortValue} handler={sortingHandler}/>
         <h2 style={{textAlign: 'center'}}>Posts List</h2>
-        {sortedPosts ? sortedPosts.map((p: PostItemType) => <PostItem
-                key={p.id}
-                id={p.id}
-                title={p.title}
-                description={p.description}
-                deletePost={deletePost}
-            />
-        ) : <h1>Posts not found</h1>
+        {searchingAndSortedPosts && searchingAndSortedPosts.length > 0 ?
+            searchingAndSortedPosts.map((p: PostItemType) => <PostItem
+                    key={p.id}
+                    id={p.id}
+                    title={p.title}
+                    description={p.description}
+                    deletePost={deletePost}
+                />
+            ) : <h1>Posts not found</h1>
         }
     </>
 
