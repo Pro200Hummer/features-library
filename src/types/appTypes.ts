@@ -1,7 +1,8 @@
 export interface PostItemType {
+    userId: number
     id: number
     title: string
-    description: string
+    body: string
 }
 
 export interface Filter {

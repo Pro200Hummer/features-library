@@ -8,7 +8,7 @@ const useSortedPosts = (posts: PostItemType[], sort: string) => {
                 return [...posts].sort((a, b) => a.title.localeCompare(b.title))
             }
             if (sort === 'description') {
-                return [...posts].sort((a, b) => a.description.localeCompare(b.description))
+                return [...posts].sort((a, b) => a.body.localeCompare(b.body))
             }
             if (sort === 'default') {
                 return [...posts].sort((a, b) => a.id < b.id ? -1 : 1)

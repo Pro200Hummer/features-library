@@ -8,8 +8,7 @@ interface PropsType extends PostItemType {
 }
 
 export const PostItem = (props: PropsType) => {
-
-    const {id, title, description, deletePost} = props
+    const {id, title, body, deletePost} = props
 
     const buttonHandler = () => {
         deletePost(id)
@@ -20,7 +19,7 @@ export const PostItem = (props: PropsType) => {
             <div className={style.postContent}>
                 <h4>{id}. {title}</h4>
                 <div>
-                    {description}
+                    {body}
                 </div>
             </div>
             <div className={style.btns}>
