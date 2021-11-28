@@ -8,28 +8,24 @@ import {PostsHandler} from "./PostsHandler";
 import {usePosts} from "../../hooks/usePost";
 import {postsApi} from "../../api/app-api";
 import {Preloader} from "../UI/Preloader/Preloader";
+import {useFetching} from "../../hooks/useFetching";
 
 const Posts = () => {
     const [posts, setPosts] = useState<PostItemType[]>([])
-    const [filter, setFilter] = useState<Filter>({sort: 'default', query: ''})
+    const [filter, setFilter] = useState<Filter>({sort: '', query: ''})
     const [modal, setModal] = useState<boolean>(false)
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [fetchPosts, isLoading, error, setError] = useFetching(async () => {
+        const res = await postsApi.getPosts()
+        res.data.length ? setPosts(res.data) : setPosts([res.data])
+    })
     const searchingAndSortedPosts = usePosts(posts, filter.sort, filter.query)
-
-    const fetchPosts = async () => {
-        setIsLoading(true)
-        try{
-            const response = await postsApi.getPosts()
-            setPosts(response.data)
-        }catch (err){
-
-        }finally {
-            setIsLoading(false)
-        }
-    }
 
     useEffect(() => {
         fetchPosts()
+        return () => {
+            setPosts([])
+            setError('')
+        }
     }, [])
 
     const addPost = useCallback((params: { title: string, body: string }) => {
@@ -62,6 +58,7 @@ const Posts = () => {
         </Modal>
         <PostsFilter filter={filter} setFilter={setFilter}/>
         <h2 style={{textAlign: 'center'}}>Posts List</h2>
+        {error && <h2 style={{color: 'red'}}>{error}</h2>}
         {isLoading ? <Preloader/> : content}
     </>
 
