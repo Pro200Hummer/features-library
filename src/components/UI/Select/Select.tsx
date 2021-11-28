@@ -1,5 +1,4 @@
 import React, {ChangeEvent} from 'react';
-import style from '../../../styles/Select.module.scss'
 
 type OptionsType = {
     value: string
@@ -11,14 +10,15 @@ interface Sorting {
     options: OptionsType[]
     sortValue: string
     handler: (e: ChangeEvent<HTMLSelectElement>) => void
+    className?: string
 }
 
 export const Select = React.memo((props: Sorting) => {
-    const {defaultValue, sortValue, options, handler} = props
+    const {defaultValue, sortValue, options, handler, className} = props
 
     return <select
         name="sorting"
-        className={style.select}
+        className={className}
         value={sortValue}
         onChange={handler}
     >
