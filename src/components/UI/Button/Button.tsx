@@ -1,4 +1,5 @@
 import React, {PropsWithChildren} from 'react';
+import style from "./Button.module.scss"
 
 interface ButtonProps {
     handler: () => void
@@ -8,5 +9,7 @@ interface ButtonProps {
 export const Button = (props: PropsWithChildren<ButtonProps>) => {
     const {handler, className, children} = props
 
-    return <button onClick={handler} className={className}>{children}</button>
+    const rootClasses = className ? className : style.button
+
+    return <button onClick={handler} className={rootClasses}>{children}</button>
 };

@@ -2,6 +2,8 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {PostItem} from "./PostItem";
 import {PostsHandler} from "./PostsHandler";
 import PostsFilter from "./PostsFilter";
+import {Modal} from "../UI/Modal/Modal";
+import {Button} from "../UI/Button/Button";
 
 export interface PostItemType {
     id: number
@@ -21,6 +23,7 @@ const Posts = () => {
     ])
 
     const [filter, setFilter] = useState<Filter>({sort: 'default', query: ''})
+    const [modal, setModal] = useState<boolean>(false)
 
     const sortedPosts = useMemo(() => {
         if (filter.sort) {
@@ -51,6 +54,7 @@ const Posts = () => {
             ...posts,
             {id: posts.length + 1, ...params}
         ])
+        setModal(false)
     }, [posts])
 
     const deletePost = (postId: number) => {
@@ -58,7 +62,10 @@ const Posts = () => {
     }
 
     return <>
-        <PostsHandler addPost={addPost}/>
+        <Button handler={() => setModal(true)}>Create Post</Button>
+        <Modal visible={modal} setVisible={setModal}>
+            <PostsHandler addPost={addPost}/>
+        </Modal>
         <PostsFilter filter={filter} setFilter={setFilter}/>
         <h2 style={{textAlign: 'center'}}>Posts List</h2>
         {searchingAndSortedPosts && searchingAndSortedPosts.length > 0 ?
